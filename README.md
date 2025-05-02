@@ -17,12 +17,12 @@ You will need access to Borg, request [here](https://docs.google.com/forms/d/e/1
 ## Matlab plugin
 - [BorgMOEA](https://github.com/BorgMOEA/BorgMOEA): 
     - Serial - borg.c and borg.h
-- The Matlab plugin files are updated in the repository for getting runtime dynamics and checkpointing. 
+- The MATLAB plugin files are updated in the repository for getting runtime dynamics and checkpointing. 
 
 ## [BorgTraining](https://github.com/philip928lin/BorgTraining) repository
-I created a workflow using Borg in the `BorgTraining` repository. It contains the revised `borg.py` and pre-compiled `.so` files.
+I created a workflow using Borg in the [Matlab_Borg_Training](https://github.com/ssaiveena/Matlab_Borg_Training). repository. It contains the updated 'borg.m' and 'nativeborg.cpp' files.
 
-You will likely need to recompile the `.so` files for your machine, as I will show you below. The pre-compiled version is for the Hopper cluster at Cornell.
+The Borg MOEA plugin for Matlab will use the `mex` compiler to produce a "mex file".
 
 After clone the repo, install required package by
 ```
