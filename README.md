@@ -1,45 +1,28 @@
 # Run Borg MOEA and Matlab Wrapper
 
 # Introduction
-Sai Veena Sunkara
 
-Borg is a powerful adaptive framework for multi-objective optimization. The core algorithm is programmed in C for efficiency. Although a command-line interface is designed, the workflow from problem setup, Borg configuration, output results, performance metrics calculation, and visualization is complex and often requires multiple tools programmed in different languages.
+Borg is a multi-objective evolutionary algorithm written in C, with wrappers available for Python, MATLAB, R, Java, and C++ to support broader accessibility and application. You can find resources for application of different wrappers [here](https://waterprogramming.wordpress.com/2025/02/04/everything-you-need-to-run-borg-moea-and-serial-python-wrapper-part-1/). In this post, the ***checkpointing*** feature is introduced for **MATLAB**. All the supporting files can be found in the GitHub repository [Matlab_Borg_Training](https://github.com/ssaiveena/Matlab_Borg_Training). 
 
-Learning and setting up such a workflow takes quite a long time. This post continues [Everything You Need to Run Borg MOEA and Python Wrapper - Part 1](waterprogramming.wordpress.com/2025/02/04/everything-you-need-to-run-borg-moea-and-serial-python-wrapper-part-1/) and provides a consolidated code resource hub.
-
-In this post, I have created a dedicated GitHub repository, [BorgTraining](https://github.com/philip928lin/BorgTraining), to ease the learning process. In the repository, I provide both serial and parallel Borg examples using Python wrapper to conduct random seed diagnosis. Hopefully, this repository becomes a place for collecting entry-level experiments and examples for Borg. 
-
-Please contact me if you want to contribute to the repository.
-
-Specifically, I will cover:
+This blog post and repository include:
 1. [Compiling a shared library from C code](#1-compiling-a-shared-library-from-c-code)
-2. [Setting up a Python script for running parallel Borg through a Python wrapper](#2-setting-up-a-python-script-for-running-parallel-borg-through-a-python-wrapper)
+2. [Setting up a script for running Borg through Matlab wrapper](#2-setting-up-a-python-script-for-running-parallel-borg-through-a-python-wrapper)
 3. [Introducing the checkpoint feature](#3-introducing-the-checkpoint-feature)
 4. [Streamlined tools for computing performance metrics (e.g., hypervolume) using MOEAFramework](#4-streamlined-tools-for-computing-performance-metrics-eg-hypervolume-using-moeaframework)
 5. [Conducting random seed diagnosis and interactive plotting using Plotly](#5-conducting-random-seed-diagnosis-and-interactive-plotting-using-plotly)
 
-After reading this post, you will learn how to run the Borg to solve your customize problem written in Python!
-
 # Prerequisites
-You will need the access to Borg to run Borg as licensed software. Additionally, you will need access to the [BorgTraining](https://github.com/philip928lin/BorgTraining) repository I developed to fully experience the workflow I am going to share in this post. Both accesses are potentially available upon request.
+You will need access to Borg, request [here](https://docs.google.com/forms/d/e/1FAIpQLSfuBBDJyEVw6D8PLvwx9hmOqpmw7MCyjpeOMVbxGXzxZkG2wg/viewform).
 
-## Borg repositories
-Borg has three versions, serial, master-slave, and multi-master. All of them are programmed 
-in C. The source code can be accessed from the private repositories listed below. 
-
+## Matlab plugin
 - [BorgMOEA](https://github.com/BorgMOEA/BorgMOEA): 
     - Serial - borg.c and borg.h
-    - Master-Slave - borgms.c and borgms.h
-
-Plugins for interacting with C libraries using different programming languages. Given that the usage of the Python plugin is not well-documented, this manual aims to fill this gap and provide a revised `borg.py` (available in the [BorgTraining](https://github.com/philip928lin/BorgTraining) repository) for improved interaction with the shared C library.
-
-Note: The Borg with the checkpoint feature is available in [MMBorgMOEA - passNFE_ALH_PyCheckpoint branch](github.com/MMBorgMOEA/MMBorgMOEA/tree/passNFE_ALH_PyCheckpoint). I will come back to the checkpoint later.
+- The Matlab plugin files are updated in the repository for getting runtime dynamics and checkpointing. 
 
 ## [BorgTraining](https://github.com/philip928lin/BorgTraining) repository
-I created a workflow using Borg in the `BorgTraining` repository. It contains the revised `borg.py` and pre-compiled `.so` files, derived from the [MMBorgMOEA - passNFE_ALH_PyCheckpoint branch](github.com/MMBorgMOEA/MMBorgMOEA/tree/passNFE_ALH_PyCheckpoint). Note I also revised `borg.c` to avoid errors.
+I created a workflow using Borg in the `BorgTraining` repository. It contains the revised `borg.py` and pre-compiled `.so` files.
 
 You will likely need to recompile the `.so` files for your machine, as I will show you below. The pre-compiled version is for the Hopper cluster at Cornell.
-
 
 After clone the repo, install required package by
 ```
@@ -103,15 +86,6 @@ the revised versions.
 - Corrected the serial runtime output (`runtimeformat='borg'`) format to fit the MOEAFramework.
 - Automatically converts paths to bytes before passing them into C-Borg.
 - Integrated the checkpoint feature.
-
-### Bash commands to explore .so
-
-```bash
-# To list all functions in a shared object (.so) file, you can use the following methods:
-nm -D ./libborgmm.so
-
-nm -D ./libborgmm.so | grep BORG_Algorithm_checkpoint
-```
 
 ## Example of serial Borg with `borg.py` on Hopper cluster 
 ### Step 1: Python script for running Borg with your defined problem
@@ -775,3 +749,5 @@ I hope this blog post and the [BorgTraining](https://github.com/philip928lin/Bor
 facilitate your research and exploration!
 
 Again, I would love to have your contribution to the BorgTraining repo to include more examples, tools, and codes that can help other users to have a deeper experience of Borg! Feel free to contact me!
+
+Acknowledgment: This post is based on the previous posts by chung-yi and Dave. 
