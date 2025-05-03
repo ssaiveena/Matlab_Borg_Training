@@ -24,7 +24,12 @@ mxArray* epsilons = NULL;
 mxArray* functionHandle = NULL;
 mxArray* parameters = NULL;
 bool isTransposed = false;
-
+bool newCond = false;
+//const char* newCheckptFilename; 
+bool oldCond = false;
+//const char* oldCheckptFilename; 
+char newCheckptFilename[512] = "";
+char oldCheckptFilename[512] = "";
 /**
  * The callback function that invokes the MATLAB function handle.
  *
@@ -220,33 +225,33 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 		maxEvaluations = (int)mxGetScalar(prhs[4]);
 	}
     
-	if (nrhs >= 6) {
-		if (!mxIsNumeric(prhs[5])) {
+	if (nrhs >= 7) {
+		if (!mxIsNumeric(prhs[6])) {
 			mexErrMsgTxt("Argument lowerBounds must be an array of numbers.");
-		} else if (mxGetNumberOfElements(prhs[5]) != numberOfVariables) {
+		} else if (mxGetNumberOfElements(prhs[6]) != numberOfVariables) {
 			mexErrMsgTxt("Length of lowerBounds must match nvars.");
 		} else {
-			lowerBounds = const_cast<mxArray*>(prhs[5]);
+			lowerBounds = const_cast<mxArray*>(prhs[6]);
 		}
 	}
     
-	if (nrhs >= 7) {
-		if (!mxIsNumeric(prhs[6])) {
+	if (nrhs >= 8) {
+		if (!mxIsNumeric(prhs[7])) {
 			mexErrMsgTxt("Argument upperBounds must be an array of numbers.");
-		} else if (mxGetNumberOfElements(prhs[6]) != numberOfVariables) {
+		} else if (mxGetNumberOfElements(prhs[7]) != numberOfVariables) {
 			mexErrMsgTxt("Length of upperBounds must match nvars.");
 		} else {
-			upperBounds = const_cast<mxArray*>(prhs[6]);
+			upperBounds = const_cast<mxArray*>(prhs[7]);
 		}
 	}
 
-	if (nrhs >= 8) {
-		if (!mxIsNumeric(prhs[7])) {
+	if (nrhs >= 5) {
+		if (!mxIsNumeric(prhs[5])) {
 			mexErrMsgTxt("Argument epsilons must be an array of numbers.");
-		} else if (mxGetNumberOfElements(prhs[7]) != numberOfObjectives) {
+		} else if (mxGetNumberOfElements(prhs[5]) != numberOfObjectives) {
 			mexErrMsgTxt("Length of epsilons must match nobjs.");
 		} else {
-			epsilons = const_cast<mxArray*>(prhs[7]);
+			epsilons = const_cast<mxArray*>(prhs[5]);
 		}
 	}
 
@@ -267,7 +272,26 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 			isTransposed = (bool)mxGetScalar(prhs[9]);
 		}
 	}
-
+	if (nrhs >= 11) {
+		if (!mxIsNumeric(prhs[10]) && !mxIsLogical(prhs[10])) {
+			mexErrMsgTxt("Argument newCond  must be a logical value.");
+		} else{
+            newCond = true; //(mxGetScalar(prhs[10]) != 0);
+            if (mxGetString(prhs[11], newCheckptFilename, sizeof(newCheckptFilename)) != 0) {
+                mexErrMsgIdAndTxt("MyToolbox:ConversionError", "Failed to extract filename.");
+            }
+        }
+	}
+    if (nrhs >= 13) {
+		if (!mxIsNumeric(prhs[12]) && !mxIsLogical(prhs[12])) {
+			mexErrMsgTxt("Argument oldCond must be a logical value.");
+		} else{
+            oldCond = true;
+            if (mxGetString(prhs[13], oldCheckptFilename, sizeof(oldCheckptFilename)) != 0) {
+                mexErrMsgIdAndTxt("MyToolbox:ConversionError", "Failed to extract filename.");
+            }
+        }
+	}
 	// start the timer
 	clock_t start = clock();
 
@@ -340,7 +364,10 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 	BORG_Algorithm_set_max_mutation_index(algorithm, lookupInt("maxMutationIndex", 10));
 	BORG_Algorithm_set_probability_mode(algorithm, static_cast<BORG_Probabilities>(lookupInt("probabilityMode", PROBABILITIES_DEFAULT)));
 
-	// run the Borg MOEA
+	if (oldCond){
+        BORG_Algorithm_restore(algorithm, oldCheckptFilename);
+    }
+    // run the Borg MOEA
 	int currentEvaluations = 0;
 	int lastSnapshot = 0;
 	int count = 0;
@@ -362,6 +389,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 	//runtimeFileName = snprintf(buffer, sizeof(buffer), "Runtime/runtime_S%i.runtime";
 	//har runtimeFileName[50] = runtimeGenericFileName + std::to_string(seed);
 	FILE* runtimeFile = fopen(runtimeFileName, "w");
+
 
 	if (nlhs >= 3) {
 		if (lookupInt("restartMode", RESTART_DEFAULT) == RESTART_ADAPTIVE) {
@@ -431,11 +459,18 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 
 			count++;
 			lastSnapshot = currentEvaluations;
-		}
+		    if (newCond) {
+                BORG_Algorithm_checkpoint(algorithm, newCheckptFilename);
+            }
+        }
 	}
 
 	BORG_Archive result = BORG_Algorithm_get_result(algorithm);
 
+    ///BORG_Algorithm_new_checkpt(checkpointFile);
+    if (newCond) {
+        BORG_Algorithm_checkpoint(algorithm,newCheckptFilename);
+    }
 	BORG_Operator_destroy(sbx);
 	BORG_Operator_destroy(de);
 	BORG_Operator_destroy(pm);

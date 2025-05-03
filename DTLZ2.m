@@ -1,6 +1,6 @@
 function [ objs ] = DTLZ2( x )
-    nvars = 12;
-    nobjs = 3;
+    nvars = 11;
+    nobjs = 2;
 
     g = sum((x(nobjs:nvars) - 0.5*ones(1, nvars-nobjs+1)).^2);
     objs = (1+g)*ones(1, nobjs);
