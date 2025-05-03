@@ -27,14 +27,14 @@ Thanks to all the authors!!
 I created a workflow using Borg in the [Matlab_Borg_Training](https://github.com/ssaiveena/Matlab_Borg_Training) repository. It contains the updated 'borg.m' and 'nativeborg.cpp' files.
 Following are the steps to set-up
 #### Step0: Get all the files in same folder
-You will need to have the following files in the same directory:
--borg.c (from [BorgMOEA](https://github.com/BorgMOEA/BorgMOEA))
--borg.h (from [BorgMOEA](https://github.com/BorgMOEA/BorgMOEA))
--mt19937ar.c (from [BorgMOEA](https://github.com/BorgMOEA/BorgMOEA))
--mt19937ar.h (from [BorgMOEA](https://github.com/BorgMOEA/BorgMOEA))
--nativeborg.cpp (from [Matlab_Borg_Training](https://github.com/ssaiveena/Matlab_Borg_Training))
--borg.m (from [Matlab_Borg_Training](https://github.com/ssaiveena/Matlab_Borg_Training))
--DTLZ2.m (from [Matlab_Borg_Training](https://github.com/ssaiveena/Matlab_Borg_Training))
+You will need to have the following files in the same directory
+- borg.c (from [BorgMOEA](https://github.com/BorgMOEA/BorgMOEA))
+- borg.h (from [BorgMOEA](https://github.com/BorgMOEA/BorgMOEA))
+- mt19937ar.c (from [BorgMOEA](https://github.com/BorgMOEA/BorgMOEA))
+- mt19937ar.h (from [BorgMOEA](https://github.com/BorgMOEA/BorgMOEA))
+- nativeborg.cpp (from [Matlab_Borg_Training](https://github.com/ssaiveena/Matlab_Borg_Training))
+- borg.m (from [Matlab_Borg_Training](https://github.com/ssaiveena/Matlab_Borg_Training))
+- DTLZ2.m (from [Matlab_Borg_Training](https://github.com/ssaiveena/Matlab_Borg_Training))
 
 #### Step1: Edits to code borg.h
 Replace lines 683-691 as follows to call the file name and directory in Matlab
