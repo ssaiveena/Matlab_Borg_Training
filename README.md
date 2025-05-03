@@ -16,17 +16,17 @@ You will need access to Borg, request [here](https://docs.google.com/forms/d/e/1
 - The MATLAB plugin files are updated in the repository [Matlab_Borg_Training](https://github.com/ssaiveena/Matlab_Borg_Training) for getting runtime dynamics and checkpointing. 
 
 This post is a consolidation and updated to latest version of previous posts
-    - [Performing random seed analysis and runtime diagnostics with the serial Borg Matlab wrapper](https://waterprogramming.wordpress.com/2019/04/17/performing-random-seed-analysis-and-runtime-diagnostics-with-the-serial-borg-matlab-wrapper/)
-    - [Update on setting up the Borg Matlab Wrapper on Windows and tips for its use](https://waterprogramming.wordpress.com/2018/07/19/update-on-setting-up-the-borg-matlab-wrapper-on-windows-and-tips-for-its-use/)
-    - [Compiling the Borg Matlab Wrapper (OSX/Linux)](https://waterprogramming.wordpress.com/2014/02/18/compiling-the-borg-matlab-wrapper-osxlinux/)
-    - [Everything You Need to Run Borg MOEA and Python Wrapper – Part 2](https://waterprogramming.wordpress.com/2025/02/19/everything-you-need-to-run-borg-moea-and-python-wrapper-part-2/)
-    - [Setting Borg parameters from the Matlab wrapper](https://waterprogramming.wordpress.com/2015/03/13/setting-borg-parameters-from-the-matlab-wrapper/)
+- [Performing random seed analysis and runtime diagnostics with the serial Borg Matlab wrapper](https://waterprogramming.wordpress.com/2019/04/17/performing-random-seed-analysis-and-runtime-diagnostics-with-the-serial-borg-matlab-wrapper/)
+- [Update on setting up the Borg Matlab Wrapper on Windows and tips for its use](https://waterprogramming.wordpress.com/2018/07/19/update-on-setting-up-the-borg-matlab-wrapper-on-windows-and-tips-for-its-use/)
+- [Compiling the Borg Matlab Wrapper (OSX/Linux)](https://waterprogramming.wordpress.com/2014/02/18/compiling-the-borg-matlab-wrapper-osxlinux/)
+- [Everything You Need to Run Borg MOEA and Python Wrapper – Part 2](https://waterprogramming.wordpress.com/2025/02/19/everything-you-need-to-run-borg-moea-and-python-wrapper-part-2/)
+- [Setting Borg parameters from the Matlab wrapper](https://waterprogramming.wordpress.com/2015/03/13/setting-borg-parameters-from-the-matlab-wrapper/)
 Thanks to all the authors!!
 
 ## [Matlab_Borg_Training](https://github.com/ssaiveena/Matlab_Borg_Training) repository
 I created a workflow using Borg in the [Matlab_Borg_Training](https://github.com/ssaiveena/Matlab_Borg_Training) repository. It contains the updated 'borg.m' and 'nativeborg.cpp' files.
 Following are the steps to set-up
-####Step0: Get all the files in same folder
+#### Step0: Get all the files in same folder
 You will need to have the following files in the same directory:
 -borg.c (from [BorgMOEA](https://github.com/BorgMOEA/BorgMOEA))
 -borg.h (from [BorgMOEA](https://github.com/BorgMOEA/BorgMOEA))
